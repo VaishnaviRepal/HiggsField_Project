@@ -1,10 +1,24 @@
 import express from "express";
+const PrismaClient = (require("@prisma/client") as {
+    PrismaClient: new () => any;
+}).PrismaClient;
+
+const prisma = new PrismaClient();
 const app = express();
 
-app.post("/api/v1/signup", (req,res)=>{
+app.post("/api/v1/signup",async  (req,res)=>{
+    
+    const user = await prisma.user.create({
+        data : {
+            username : req.body.username,
+            password: req.body.password
+        }
+    })
 
 
-    res.json({"Status": "200"});
+    res.json({
+        id: user.id
+    });
 })
 
 app.post("/api/v1/signin", (req, res) => {

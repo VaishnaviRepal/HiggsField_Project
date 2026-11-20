@@ -17,14 +17,15 @@ model User {
   username  String      @unique
   password  String
   avatars   Avatar[]
+  avatarVideos AvatarVedio[]
 }
 
 model Avatar {
   id        String      @id       @default(uuid())
   userId    String
   name      String 
-  avatarImages AvatarImages[]
-  avatarVedioReferences   AvatarVedioReferences[]
+  avatarImages AvatarImage[]
+  avatarVedioReferences   AvatarVedioReference[]
   user      User        @relation(fields: [userId], references: [id])
 }
 
@@ -38,7 +39,7 @@ model AvatarImage {
   avatarId  String
   type      AvatarImageType
   url       String
-  avatar    Avatar      @relation(fields: [userId], references: [id]) 
+  avatar    Avatar      @relation(fields: [avatarId], references: [id]) 
 }
 
 model AvatarVedio{
@@ -51,8 +52,8 @@ model AvatarVedio{
   width       Int
   height      Int
   status      Int
-  avatarVedioReferences   AvatarVedioReferences[]
-  user      User        @relation(fields: [userId], references: [id])   
+  avatarVedioReferences   AvatarVedioReference[]
+  user        User        @relation(fields: [userId], references: [id])   
 }
 
 model AvatarVedioReference {
